@@ -1,0 +1,15 @@
+{
+  "name": "bnjs-ui",
+  "version": "0.0.1",
+  "description": "BNJS 2.0 UI",
+  "homepage": "https://github.com/ishowshao/bnjs-ui",
+  "repository": "https://github.com/ishowshao/bnjs-ui",
+  "main": "index.js",
+  "scripts": {},
+  "devDependencies": {
+    "handlebars": "^4.0.5",
+    "webpack": "^1.13.2"
+  },
+  "dependencies": {},
+  "license": "Apache-2.0"
+}

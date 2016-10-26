@@ -1,0 +1,17 @@
+# node_modules
+node_modules/
+
+# dist folder
+dist/
+# build/
+
+# debug info
+npm-debug.log
+
+# token file
+.token
+
+# built files for test
+test/public/
+.idea/
+
