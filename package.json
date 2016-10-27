@@ -7,6 +7,7 @@
   "main": "index.js",
   "scripts": {},
   "devDependencies": {
+    "clean-webpack-plugin": "^0.1.13",
     "handlebars": "^4.0.5",
     "webpack": "^1.13.2"
   },

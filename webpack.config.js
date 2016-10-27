@@ -1,13 +1,20 @@
-const webpack = require('webpack');
 const path = require('path');
-const root = __dirname;
-console.log(root);
+const Clean = require('clean-webpack-plugin');
+
+const SRC = path.resolve(__dirname, 'src');
+const DIST = path.resolve(__dirname, 'dist');
+
 module.exports = {
     entry: {
-        index: './src/bnjs.ui.js'
+        'bnjs.ui': path.resolve(SRC, 'bnjs.ui.js'),
+        'ui/List': path.resolve(SRC, 'ui/List/index.js'),
+        'ui/Album': path.resolve(SRC, 'ui/Album/index.js')
     },
     output: {
         path: './dist',
         filename: '[name].js'
-    }
+    },
+    plugins: [
+        new Clean([DIST])
+    ]
 };
