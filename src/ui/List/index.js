@@ -14,7 +14,9 @@ class List {
 
     render() {
         const html = template(this.options.data);
-        document.getElementById(this.options.renderTo).innerHTML = html;
+        if (isBroswer) {
+            document.getElementById(this.options.renderTo).innerHTML = html;
+        }
         return html;
     }
 }
