@@ -19,3 +19,8 @@ webpack --watch
 * 只可以使用handlebars模板，而且也必须要使用
 * 所有构建DOM的操作，必须通过模板引擎，不能使用js直接操作DOM
 * 根据options构建不同DOM结构的，同上
+
+## 规范
+
+* 使用ES6语法
+* 必须通过FECS检查
