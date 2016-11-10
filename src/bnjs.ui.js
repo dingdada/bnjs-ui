@@ -2,7 +2,7 @@
  * BNJS UI
  *
  * @file loader for BNJS-UI
- * @author shaoshuai02@baidu.com
+ * @author dinglingjuan(dinglingjuan@baidu.com)
  */
 
 /* eslint-disable no-use-before-define */
