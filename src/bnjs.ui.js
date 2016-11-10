@@ -5,54 +5,71 @@
  * @author shaoshuai02@baidu.com
  */
 
+/* eslint-disable no-use-before-define */
+
 if (!window.BNJS) {
     window.BNJS = {};
 }
 
-let BNJS = window.BNJS;
-
-const existedWidgets = {};
+const BNJS = window.BNJS;
 
 BNJS.create = (id, options) => {
-    // loader
-    // load widget and instance with options
-
-    return load(id).then(Widget => {
-
+    return fetchWidgetById(id).then(Widget => {
         const widget = new Widget(options);
         return widget.render();
     });
 };
 
-const getDefined = (defined => {
-    BNJS.define = factory => void (defined = factory);
-    return () => defined;
-})();
+const fetchWidgetById = (() => {
+    const existedWidgets = {};
 
-
-function load(id) {
-
-    if (!existedWidgets[id]) {
+    return id => {
+        if (existedWidgets[id]) {
+            return Promise.resolve(existedWidgets[id]);
+        }
 
         const relativePath = id.split('.').slice(1).join('/');
 
         // TODO baseUri path
-        const absolutePath = '../../dist/' + relativePath + '.js';
+        const absolutePath =  '../../dist/' + relativePath + '.js';
 
-        existedWidgets[id] = new Promise((resolve, reject) => {
+        return load(absolutePath).then(factory => {
+            const Widget = factory();
 
-            const script = Object.assign(document.createElement('script'), {
-                src: absolutePath,
-                charset: 'utf-8',
-                onload() {
-                    resolve(getDefined()());
-                },
-                onerror: reject
-            });
+            existedWidgets[id] = Widget;
 
-            document.head.appendChild(script);
+            return Widget;
         });
-    }
+    };
+})();
 
-    return existedWidgets[id];
-}
+const load = path => {
+    return new Promise((resolve, reject) => {
+        let script = document.createElement('script');
+
+        const options = {
+            src: path,
+            charset: 'utf-8',
+            onload() {
+                resolve(getCurrentFactory());
+            },
+            onerror: reject
+        };
+
+        for (const key in options) {
+            if (options.hasOwnProperty(key)) {
+                script[key] = options[key];
+            }
+        }
+
+        document.head.appendChild(script);
+    });
+};
+
+const getCurrentFactory = (() => {
+    let currentFactory;
+
+    BNJS.define = factory => void (currentFactory = factory);
+
+    return () => currentFactory;
+})();
