@@ -1,11 +1,12 @@
 /**
  * BNJS UI Album
  *
+ * @file Album
  * @author shaoshuai02@baidu.com
  */
 
-require('style.less');
-const template = require('tpl.hbs');
+require('./style.less');
+const template = require('./tpl.hbs');
 
 class List {
     constructor(options) {

@@ -1,11 +1,12 @@
 /**
  * BNJS UI List
  *
+ * @file List
  * @author shaoshuai02@baidu.com
  */
 
-require('style.less');
-const template = require('tpl.hbs');
+require('./style.less');
+const template = require('./tpl.hbs');
 
 class List {
     constructor(options) {
@@ -14,9 +15,9 @@ class List {
 
     render() {
         const html = template(this.options.data);
-        if (isBroswer) {
-            document.getElementById(this.options.renderTo).innerHTML = html;
-        }
+        // if (isBrowser) {
+        document.getElementById(this.options.renderTo).innerHTML = html;
+        // }
         return html;
     }
 }
