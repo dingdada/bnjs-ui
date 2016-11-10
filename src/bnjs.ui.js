@@ -14,62 +14,55 @@ if (!window.BNJS) {
 const BNJS = window.BNJS;
 
 BNJS.create = (id, options) => {
-    return fetchWidgetById(id).then(Widget => {
+    return getWidget(id).then(Widget => {
         const widget = new Widget(options);
         return widget.render();
     });
 };
 
-const fetchWidgetById = (() => {
-    const existedWidgets = {};
+const makeDefine = () => {
+    let module = null;
 
-    return id => {
-        if (existedWidgets[id]) {
-            return Promise.resolve(existedWidgets[id]);
-        }
-
-        const relativePath = id.split('.').slice(1).join('/');
-
-        // TODO baseUri path
-        const absolutePath =  '../../dist/' + relativePath + '.js';
-
-        return load(absolutePath).then(factory => {
-            const Widget = factory();
-
-            existedWidgets[id] = Widget;
-
-            return Widget;
-        });
+    const getDefined = () => {
+        return module;
     };
-})();
 
-const load = path => {
+    BNJS.define = fn => {
+        module = fn();
+    };
+
+    return getDefined;
+};
+
+const getDefined = makeDefine();
+
+const getScriptSrcById = id => {
+    // TODO baseUri path
+    const relativePath = id.split('.').slice(1).join('/');
+    return '../../dist/' + relativePath + '.js';
+};
+
+const loadWidget = id => {
     return new Promise((resolve, reject) => {
-        let script = document.createElement('script');
 
-        const options = {
-            src: path,
-            charset: 'utf-8',
-            onload() {
-                resolve(getCurrentFactory());
-            },
-            onerror: reject
-        };
-
-        for (const key in options) {
-            if (options.hasOwnProperty(key)) {
-                script[key] = options[key];
-            }
-        }
-
+        const script = document.createElement('script');
+        script.src = getScriptSrcById(id);
+        script.addEventListener('load', () => {
+            resolve(getDefined());
+        });
+        script.addEventListener('error', reject);
         document.head.appendChild(script);
+
     });
 };
 
-const getCurrentFactory = (() => {
-    let currentFactory;
+const loadedWidgets = {};
 
-    BNJS.define = factory => void (currentFactory = factory);
+const getWidget = (id) => {
 
-    return () => currentFactory;
-})();
+    if (!loadedWidgets[id]) {
+        loadedWidgets[id] = loadWidget(id);
+    }
+
+    return loadedWidgets[id];
+};
