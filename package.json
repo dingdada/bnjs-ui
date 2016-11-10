@@ -7,9 +7,15 @@
   "main": "index.js",
   "scripts": {},
   "devDependencies": {
-    "clean-webpack-plugin": "^0.1.13",
+    "clean-webpack-plugin": "^0.1.14",
+    "css-loader": "^0.25.0",
+    "entry-wrap-webpack-plugin": "^1.0.0",
     "handlebars": "^4.0.5",
-    "webpack": "^1.13.2"
+    "handlebars-loader": "^1.4.0",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.3"
   },
   "dependencies": {},
   "license": "Apache-2.0"
